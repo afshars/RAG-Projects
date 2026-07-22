@@ -14,7 +14,7 @@
 
 **Upload your data → Build a knowledge base → Ask questions → Get grounded answers with citations**
 
-![Architecture](images/user.png)
+![Architecture](imeges/user.png)
 
 </div>
 
@@ -189,24 +189,24 @@ Dana's backend is fully designed and implemented with **FastAPI**, leveraging th
 ### 1. Chat Page (Home)
 The central interaction hub with real-time streaming, multimodal support, and grounded citations.
 
-![Dana Chat Interface](images/chat.png)
+![Dana Chat Interface](imeges/chat.png)
 
 ### 2. Knowledge Base
 A comprehensive workspace for managing data sources, supporting various file formats and web-based ingestion.
 
-![Dana Knowledge Base](images/source.png)
+![Dana Knowledge Base](imeges/source.png)
 
 ### 3. RAG & LLM Configuration
 Granular control over the retrieval pipeline and model parameters, allowing fine-tuning of the RAG behavior.
 
 | LLM Settings | RAG Parameters |
 | :---: | :---: |
-| ![LLM Configuration](images/LLMsetting.png) | ![RAG Parameters](images/RAGsetting.png) |
+| ![LLM Configuration](imeges/LLMsetting.png) | ![RAG Parameters](imeges/RAGsetting.png) |
 
 ### 4. Evaluation Dashboard
 A dedicated environment to measure system performance using industry-standard RAG metrics.
 
-![Dana Evaluation Dashboard](images/evaluation.png)
+![Dana Evaluation Dashboard](imeges/evaluation.png)
 
 ---
 
