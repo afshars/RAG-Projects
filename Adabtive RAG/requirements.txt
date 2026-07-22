@@ -1,0 +1,8 @@
+streamlit
+langchain
+langchain-text-splitters
+PyPDF2
+pdfminer.six
+chromadb
+requests
+sentence-transformers
