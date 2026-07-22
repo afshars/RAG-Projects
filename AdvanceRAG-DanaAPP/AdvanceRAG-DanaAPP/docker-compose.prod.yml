@@ -1,0 +1,70 @@
+# Production deployment on a VPS with a real domain + automatic HTTPS.
+#
+# Differences from the local docker-compose.yml:
+#   - Backend/frontend ports are no longer published to the host directly —
+#     only Caddy (80/443) is, and it reverse-proxies to both containers over
+#     the internal Docker network.
+#   - Caddy gets a Let's Encrypt certificate for $DOMAIN automatically on
+#     first boot (needs the domain's DNS A/AAAA record already pointing at
+#     this server, and ports 80+443 reachable from the internet).
+#   - The frontend is built to call the API via a same-origin relative path
+#     (see .env.prod.example) instead of a hardcoded http://localhost:8000,
+#     since both now live behind the same HTTPS domain.
+#
+# Usage:
+#   cp .env.prod.example .env.prod
+#   # edit .env.prod: set DOMAIN, CORS_ORIGINS, etc.
+#   docker compose --env-file .env.prod -f docker-compose.prod.yml up --build -d
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: dana-backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: sqlite+aiosqlite:///./data/app.db
+      CORS_ORIGINS: ${CORS_ORIGINS:?set to https://<DOMAIN> in .env.prod}
+      DEFAULT_LLM_BASE_URL: ${DEFAULT_LLM_BASE_URL:-https://api.gapgpt.app/v1}
+      DEFAULT_LLM_MODEL: ${DEFAULT_LLM_MODEL:-gapgpt-qwen-3.6}
+      DEFAULT_EMBEDDING_MODEL: ${DEFAULT_EMBEDDING_MODEL:-text-embedding-3-small}
+    volumes:
+      - backend_data:/app/data
+    expose:
+      - "8000"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # Same-origin: the frontend calls /chat, /knowledge, /settings, etc. on
+        # its own domain, and Caddy routes those paths to the backend (see
+        # ../Caddyfile) — so no separate API hostname/port is needed here.
+        VITE_API_BASE_URL: ""
+    container_name: dana-frontend
+    restart: unless-stopped
+    expose:
+      - "80"
+    depends_on:
+      - backend
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: dana-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAIN: ${DOMAIN:?set your domain in .env.prod, e.g. dana.example.com}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - backend
+      - frontend
+
+volumes:
+  backend_data:
+  caddy_data:
+  caddy_config:

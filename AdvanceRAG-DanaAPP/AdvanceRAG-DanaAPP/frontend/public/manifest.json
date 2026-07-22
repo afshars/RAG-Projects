@@ -1,0 +1,15 @@
+{
+  "name": "دانا | سیستم پیشرفته RAG",
+  "short_name": "دانا",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4338CA",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+sqlalchemy==2.0.36
+pydantic==2.10.4
+pydantic-settings==2.7.1
+python-multipart==0.0.20
+httpx==0.28.1
+numpy==1.26.4
+pypdf==5.1.0
+python-docx==1.1.2
+beautifulsoup4==4.12.3
+markdown==3.7
+aiosqlite==0.20.0
+
+# ── Upgraded RAG pipeline (semantic chunking, HyDE, query decomposition,
+#    BM25 + cross-encoder reranking) ──────────────────────────────────
+langchain==0.3.14
+langchain-core==0.3.29
+langchain-community==0.3.14
+langchain-experimental==0.3.4
+rank-bm25==0.2.2
+sentence-transformers==3.3.1
+faiss-cpu==1.9.0
